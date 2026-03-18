@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "BoldClub",
+    "slug": "boldclub-mobile",
+    "scheme": "boldclub",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "experiments": {
+      "typedRoutes": true
+    },
+    "plugins": [
+      "expo-router",
+      "expo-apple-authentication"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.boldclub.mobile"
+    },
+    "android": {
+      "package": "com.boldclub.mobile",
+      "adaptiveIcon": {
+        "backgroundColor": "#130A17"
+      }
+    }
+  }
+}
