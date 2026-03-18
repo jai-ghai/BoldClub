@@ -1,22 +1,8 @@
-import { useEffect, useState } from "react";
 import { Tabs } from "expo-router";
 
 import { TabChatIcon, TabDiscoverIcon, TabLikesIcon, TabPersonalityIcon, TabProfileIcon } from "../../src/components/icons";
-import { getBootstrapState } from "../../src/lib/bootstrap";
-
-const ALL_TABS = ["personality", "likes", "discover", "chat", "profile"];
 
 export default function TabLayout() {
-  const [enabledTabs, setEnabledTabs] = useState<string[]>(ALL_TABS);
-
-  useEffect(() => {
-    void getBootstrapState().then((bootstrap) => {
-      setEnabledTabs(bootstrap.enabledTabs.length > 0 ? bootstrap.enabledTabs : ["profile"]);
-    });
-  }, []);
-
-  const isVisible = (tabName: string) => enabledTabs.includes(tabName);
-
   return (
     <Tabs
       screenOptions={{
@@ -41,7 +27,6 @@ export default function TabLayout() {
         name="personality"
         options={{
           title: "Personality",
-          href: isVisible("personality") ? undefined : null,
           tabBarIcon: ({ color }) => <TabPersonalityIcon color={color} size={20} />,
         }}
       />
@@ -49,7 +34,6 @@ export default function TabLayout() {
         name="likes"
         options={{
           title: "Likes",
-          href: isVisible("likes") ? undefined : null,
           tabBarIcon: ({ color }) => <TabLikesIcon color={color} size={20} />,
         }}
       />
@@ -57,7 +41,6 @@ export default function TabLayout() {
         name="discover"
         options={{
           title: "Discover",
-          href: isVisible("discover") ? undefined : null,
           tabBarIcon: ({ color }) => <TabDiscoverIcon color={color} size={20} />,
         }}
       />
@@ -65,7 +48,6 @@ export default function TabLayout() {
         name="chat"
         options={{
           title: "Chat",
-          href: isVisible("chat") ? undefined : null,
           tabBarIcon: ({ color }) => <TabChatIcon color={color} size={20} />,
         }}
       />
@@ -73,7 +55,6 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: "Profile",
-          href: isVisible("profile") ? undefined : null,
           tabBarIcon: ({ color }) => <TabProfileIcon color={color} size={20} />,
         }}
       />

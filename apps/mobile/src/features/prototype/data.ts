@@ -230,4 +230,11 @@ export const blogPosts = [
     image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300&h=200&fit=crop",
     readTime: "4 min",
   },
+  {
+    id: "4",
+    category: "Relationships",
+    title: "Building Healthy Boundaries",
+    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300&h=200&fit=crop",
+    readTime: "6 min",
+  },
 ];
