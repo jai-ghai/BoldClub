@@ -20,9 +20,9 @@ This folder is the FastAPI backend.
 ## Confirmed Backend Direction
 
 - FastAPI is the backend source of truth.
-- OpenAI handles embeddings and AI-generated explanation flows.
-- `gpt-4o-mini` is reserved for match compatibility explanations.
-- Human-to-human real-time chat can still use Stream while OpenAI powers AI prompts and guidance.
+- Gemini handles embeddings and compatibility explanation flows.
+- Cloudinary handles photo and video storage metadata plus signed upload preparation.
+- Human-to-human real-time chat can still use Stream while Gemini powers the compatibility layer.
 
 ## Phase 2 Status
 

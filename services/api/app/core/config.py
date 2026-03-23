@@ -26,10 +26,17 @@ class Settings(BaseSettings):
     access_token_expiry_minutes: int = 60
     refresh_token_expiry_days: int = 30
 
-    openai_api_key: str = ""
-    openai_embedding_model: str = "text-embedding-3-large"
-    openai_chat_model: str = "gpt-4o-mini"
-    openai_compatibility_model: str = "gpt-4o-mini"
+    gemini_api_key: str = ""
+    gemini_embedding_model: str = "models/gemini-embedding-001"
+    gemini_chat_model: str = "models/gemini-2.5-flash"
+    gemini_compatibility_model: str = "models/gemini-2.5-flash"
+    embedding_version: str = "gemini-v1"
+    embedding_output_dimensionality: int = 128
+
+    cloudinary_cloud_name: str = ""
+    cloudinary_api_key: str = ""
+    cloudinary_api_secret: str = ""
+    cloudinary_upload_folder: str = "boldclub"
     demo_otp_code: str = "123456"
 
     stream_api_key: str = ""
@@ -44,6 +51,7 @@ class Settings(BaseSettings):
     twilio_from_number: str = ""
 
     google_client_id: str = ""
+    google_client_ids: str = ""
     apple_client_id: str = ""
 
     model_config = SettingsConfigDict(
@@ -55,6 +63,22 @@ class Settings(BaseSettings):
     @property
     def cors_origins(self) -> list[str]:
         return [origin.strip() for origin in self.backend_cors_origins.split(",") if origin.strip()]
+
+    @property
+    def accepted_google_client_ids(self) -> list[str]:
+        values: list[str] = []
+
+        if self.google_client_id.strip():
+            values.append(self.google_client_id.strip())
+
+        values.extend(
+            client_id.strip()
+            for client_id in self.google_client_ids.split(",")
+            if client_id.strip()
+        )
+
+        # Preserve order while removing duplicates.
+        return list(dict.fromkeys(values))
 
 
 @lru_cache

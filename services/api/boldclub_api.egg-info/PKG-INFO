@@ -8,7 +8,6 @@ Requires-Dist: aiosqlite<1.0,>=0.20
 Requires-Dist: celery<6.0,>=5.4
 Requires-Dist: fastapi<1.0,>=0.115
 Requires-Dist: httpx<1.0,>=0.27
-Requires-Dist: openai<2.0,>=1.68
 Requires-Dist: PyJWT<3.0,>=2.9
 Requires-Dist: pytest<9.0,>=8.2
 Requires-Dist: pydantic<3.0,>=2.8

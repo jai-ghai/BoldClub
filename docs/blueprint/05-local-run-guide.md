@@ -28,8 +28,8 @@ These are enough to boot the repo and work on it locally:
 
 ### Strongly recommended for real product testing
 
-- OpenAI account
-  Used for embeddings, AI chat help, and `gpt-4o-mini` compatibility explanations.
+- Gemini API key
+  Used for embeddings and compatibility explanations.
 - Google Cloud account
   Needed for Google Sign-In client IDs.
 - Apple Developer account
@@ -45,8 +45,10 @@ These are enough to boot the repo and work on it locally:
 
 ### Not required yet in the current code, but expected soon
 
+- Cloudinary account
+  Needed for signed image and video uploads.
 - AWS account or another S3-compatible storage provider
-  Needed once media uploads move from planning into implementation.
+  Not needed yet, but the media layer is designed so it can move there later.
 
 ## Local Prerequisites
 
@@ -195,7 +197,7 @@ The mobile shell is fully connected for email and phone auth plus the main onboa
 
 - Google sign-in UI
 - Apple sign-in UI
-- real media upload instead of URL placeholders
+- Cloudinary-backed media upload flow
 
 ## Fastest Local Configuration
 
@@ -206,13 +208,16 @@ If you want the quickest working setup with the fewest external accounts:
 - keep OTP providers on `development`
 - use email or phone auth during testing
 - keep Google and Apple for later client-side integration
-- leave Stream and OpenAI empty if you are only testing auth, onboarding, pause, and delete flows
+- leave Stream, Gemini, and Cloudinary empty if you are only testing auth, onboarding, pause, and delete flows
 
 ## Full Integration Configuration
 
 If you want the most realistic development environment, fill these values in [`services/api/.env.example`](/c:/Users/Minfy/Desktop/AI/Boldclub/services/api/.env.example) and copy them into your real `.env`:
 
-- `OPENAI_API_KEY`
+- `GEMINI_API_KEY`
+- `CLOUDINARY_CLOUD_NAME`
+- `CLOUDINARY_API_KEY`
+- `CLOUDINARY_API_SECRET`
 - `STREAM_API_KEY`
 - `STREAM_API_SECRET`
 - `RESEND_API_KEY`
@@ -221,6 +226,7 @@ If you want the most realistic development environment, fill these values in [`s
 - `TWILIO_AUTH_TOKEN`
 - `TWILIO_FROM_NUMBER`
 - `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_IDS`
 - `APPLE_CLIENT_ID`
 
 ## Suggested Test Accounts
@@ -237,7 +243,7 @@ Do not use real production customer accounts during local testing.
 
 Before building a production-ready APK or IPA, you should have:
 
-- OpenAI production key
+- Gemini production key
 - Google Sign-In client configuration
 - Apple Sign-In configuration
 - Twilio SMS setup
@@ -247,4 +253,4 @@ Before building a production-ready APK or IPA, you should have:
 - production PostgreSQL
 - production Redis
 - Expo account and EAS setup
-- real object storage for photos and videos
+- Cloudinary production credentials or your future S3 provider

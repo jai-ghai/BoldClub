@@ -4,35 +4,32 @@ import type { OnboardingRoute } from "../onboarding/routes";
 import { initialPrototypeProfile, type PrototypeUserProfile } from "../prototype/data";
 
 type AppFlowContextValue = {
-  isAuthenticated: boolean;
   isOnboardingComplete: boolean;
+  isDatingPaused: boolean;
   profile: PrototypeUserProfile;
   skippedOnboardingRoutes: OnboardingRoute[];
-  completeAuth: () => void;
   updateProfile: <K extends keyof PrototypeUserProfile>(key: K, value: PrototypeUserProfile[K]) => void;
   replaceProfile: (nextProfile: PrototypeUserProfile) => void;
   skipOnboardingRoute: (route: OnboardingRoute) => void;
   completeOnboarding: () => void;
+  setDatingPaused: (value: boolean) => void;
   resetApp: () => void;
 };
 
 const AppFlowContext = createContext<AppFlowContextValue | null>(null);
 
 export function AppFlowProvider({ children }: PropsWithChildren) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
+  const [isDatingPaused, setIsDatingPaused] = useState(false);
   const [profile, setProfile] = useState<PrototypeUserProfile>(initialPrototypeProfile);
   const [skippedOnboardingRoutes, setSkippedOnboardingRoutes] = useState<OnboardingRoute[]>([]);
 
   const value = useMemo<AppFlowContextValue>(
     () => ({
-      isAuthenticated,
       isOnboardingComplete,
+      isDatingPaused,
       profile,
       skippedOnboardingRoutes,
-      completeAuth() {
-        setIsAuthenticated(true);
-      },
       updateProfile(key, value) {
         setProfile((current) => ({
           ...current,
@@ -48,14 +45,17 @@ export function AppFlowProvider({ children }: PropsWithChildren) {
       completeOnboarding() {
         setIsOnboardingComplete(true);
       },
+      setDatingPaused(value) {
+        setIsDatingPaused(value);
+      },
       resetApp() {
-        setIsAuthenticated(false);
         setIsOnboardingComplete(false);
+        setIsDatingPaused(false);
         setProfile(initialPrototypeProfile);
         setSkippedOnboardingRoutes([]);
       },
     }),
-    [isAuthenticated, isOnboardingComplete, profile, skippedOnboardingRoutes],
+    [isDatingPaused, isOnboardingComplete, profile, skippedOnboardingRoutes],
   );
 
   return <AppFlowContext.Provider value={value}>{children}</AppFlowContext.Provider>;

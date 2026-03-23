@@ -10,13 +10,14 @@ This file captures the product and engineering decisions confirmed after the ini
 - Theme direction: Material 3-inspired dynamic color generation
 - Visual style: liquid glass cards, layered gradients, soft highlights, bold motion
 - Real-time chat transport: Stream
-- AI layer: OpenAI
+- AI layer: Gemini
+- Media storage: Cloudinary now, S3-ready later
 
-## OpenAI Responsibilities
+## Gemini Responsibilities
 
 - profile and personality embeddings
 - AI chat assistance and prompt suggestions
-- `gpt-4o-mini` compatibility explanations after a match
+- compatibility explanations after a match
 
 ## Authentication Requirements
 

@@ -17,11 +17,11 @@ Backend:
 - set up FastAPI project structure
 - add environment config, auth scaffolding, and module registration
 - define bootstrap response contract
-- add AI provider settings for OpenAI models
+- add AI provider settings for Gemini models
 
 Data and infra:
 
-- prepare PostgreSQL, Redis, and S3 configuration
+- prepare PostgreSQL, Redis, and Cloudinary-backed media configuration
 - add canonical user lifecycle fields
 
 Exit criteria:
@@ -181,7 +181,7 @@ Backend and workers:
 - embeddings pipeline
 - ranking improvements
 - behavioral learning
-- `gpt-4o-mini` compatibility explanations
+- Gemini-based compatibility explanations
 - AI chat assist suggestions
 
 Exit criteria:

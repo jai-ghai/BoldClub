@@ -14,6 +14,9 @@ os.environ.setdefault("AUTO_CREATE_TABLES", "true")
 os.environ.setdefault("OTP_EMAIL_PROVIDER", "development")
 os.environ.setdefault("OTP_SMS_PROVIDER", "development")
 os.environ.setdefault("JWT_SECRET_KEY", "test-secret")
+os.environ.setdefault("CLOUDINARY_CLOUD_NAME", "demo-cloud")
+os.environ.setdefault("CLOUDINARY_API_KEY", "demo-key")
+os.environ.setdefault("CLOUDINARY_API_SECRET", "demo-secret")
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 

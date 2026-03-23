@@ -1,6 +1,6 @@
 import type { AccountStatus } from "../types/app";
 
-export type AppRoute = "/(auth)" | "/(onboarding)" | "/(tabs)/discover" | "/(tabs)/profile";
+export type AppRoute = "/(auth)" | "/(onboarding)" | "/(tabs)/discover" | "/(tabs)/profile" | "/settings";
 
 export function routeForAccountStatus(accountStatus: AccountStatus): AppRoute {
   if (accountStatus === "unauthenticated" || accountStatus === "pending_verification" || accountStatus === "deleted") {

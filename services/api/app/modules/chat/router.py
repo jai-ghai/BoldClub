@@ -70,6 +70,6 @@ async def create_chat_session(match_id: str, _: User = Depends(get_active_user))
     return ChatSessionResponse(
         match_id=match_id,
         chat_provider="stream",
-        ai_assist_model=settings.openai_chat_model,
+        ai_assist_model=settings.gemini_chat_model,
         channel_id=f"match:{match_id}",
     )

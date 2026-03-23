@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
+import { Image } from "react-native";
 import {
-  Apple,
   Check,
   ChevronLeft,
   ChevronRight,
@@ -22,8 +22,21 @@ type IconProps = {
   strokeWidth?: number;
 };
 
+type BrandAppIconProps = {
+  size?: number;
+};
+
 export function BrandHeartIcon({ size = 28, color = "#FFFFFF", strokeWidth = 2.5 }: IconProps) {
   return <Heart color={color} fill={color} size={size} strokeWidth={strokeWidth} />;
+}
+
+export function BrandAppIcon({ size = 28 }: BrandAppIconProps) {
+  return (
+    <Image
+      source={require("../../../assets/branding/app-icon.png")}
+      style={{ width: size, height: size, borderRadius: Math.round(size * 0.22) }}
+    />
+  );
 }
 
 export function MailIcon({ size = 18, color = "#1C1C1C", strokeWidth = 2.2 }: IconProps) {
@@ -38,8 +51,8 @@ export function GoogleIcon({ size = 18, color = "#1C1C1C", strokeWidth = 2.2 }: 
   return <Chrome color={color} size={size} strokeWidth={strokeWidth} />;
 }
 
-export function AppleIcon({ size = 18, color = "#1C1C1C", strokeWidth = 2.2 }: IconProps) {
-  return <Apple color={color} size={size} strokeWidth={strokeWidth} />;
+export function AppleIcon({ size = 18, color = "#1C1C1C" }: IconProps) {
+  return <Ionicons color={color} name="logo-apple" size={size} />;
 }
 
 export function EyeIcon({ size = 18, color = "#7A6B72" }: IconProps) {

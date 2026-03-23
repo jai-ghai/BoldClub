@@ -27,8 +27,9 @@ async def verify_google_identity_token(id_token: str) -> IdentityClaims:
 
     payload = response.json()
 
-    if settings.google_client_id and payload.get("aud") != settings.google_client_id:
-        raise ValueError("Google token audience does not match the configured client id.")
+    accepted_google_client_ids = settings.accepted_google_client_ids
+    if accepted_google_client_ids and payload.get("aud") not in accepted_google_client_ids:
+        raise ValueError("Google token audience does not match any configured Google client id.")
 
     return IdentityClaims(
         subject=payload["sub"],

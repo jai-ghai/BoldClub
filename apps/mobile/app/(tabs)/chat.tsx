@@ -3,6 +3,7 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 
 import { Gift, Search, Send } from "lucide-react-native";
 
 import { chatThreads, sampleMessages } from "../../src/features/prototype/data";
+import { PAGE_GUTTER } from "../../src/theme/layout";
 
 export default function ChatScreen() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -102,7 +103,7 @@ export default function ChatScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#FFFFFF" },
-  listHeader: { paddingTop: 58, paddingHorizontal: 16, paddingBottom: 8 },
+  listHeader: { paddingTop: 58, paddingHorizontal: PAGE_GUTTER, paddingBottom: 8 },
   header: { color: "#1C1C1C", fontSize: 24, fontWeight: "800" },
   searchWrap: {
     marginTop: 14,
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   searchInput: { flex: 1, color: "#1C1C1C", fontSize: 14 },
   chatList: { paddingBottom: 100 },
   chatRow: {
-    paddingHorizontal: 16,
+    paddingHorizontal: PAGE_GUTTER,
     paddingVertical: 12,
     flexDirection: "row",
     alignItems: "center",
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
   unreadText: { color: "#FFFFFF", fontSize: 11, fontWeight: "700" },
   threadHeader: {
     paddingTop: 56,
-    paddingHorizontal: 16,
+    paddingHorizontal: PAGE_GUTTER,
     paddingBottom: 12,
     flexDirection: "row",
     alignItems: "center",
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  messageList: { padding: 16, gap: 12, paddingBottom: 100 },
+  messageList: { padding: PAGE_GUTTER, gap: 12, paddingBottom: 100 },
   messageRow: { flexDirection: "row" },
   messageRowRight: { justifyContent: "flex-end" },
   messageBubble: {
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     flexDirection: "row",
     gap: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: PAGE_GUTTER,
     paddingTop: 12,
     paddingBottom: 20,
     borderTopWidth: 1,

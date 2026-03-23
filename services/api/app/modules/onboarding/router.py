@@ -6,13 +6,22 @@ from app.db.session import get_db_session
 from app.models.user import User
 from app.modules.onboarding.schemas import (
     CompleteOnboardingResponse,
+    CreateMediaUploadSignatureRequest,
+    CreateMediaUploadSignatureResponse,
     OnboardingMutationResponse,
     OnboardingPlanResponse,
     SaveStepRequest,
     SkipStepRequest,
     StartOnboardingResponse,
 )
-from app.modules.onboarding.service import complete_onboarding, get_plan, save_step, skip_step, start_onboarding
+from app.modules.onboarding.service import (
+    complete_onboarding,
+    create_media_upload_signature,
+    get_plan,
+    save_step,
+    skip_step,
+    start_onboarding,
+)
 from app.schemas.bootstrap import OnboardingStepId
 
 router = APIRouter(prefix="/onboarding", tags=["onboarding"])
@@ -29,6 +38,14 @@ async def start_onboarding_route(
     user: User = Depends(get_current_user),
 ) -> StartOnboardingResponse:
     return await start_onboarding(db, user)
+
+
+@router.post("/media/upload-signature", response_model=CreateMediaUploadSignatureResponse)
+async def create_media_upload_signature_route(
+    payload: CreateMediaUploadSignatureRequest,
+    user: User = Depends(get_current_user),
+) -> CreateMediaUploadSignatureResponse:
+    return await create_media_upload_signature(user, payload)
 
 
 @router.put("/{step_id}", response_model=OnboardingMutationResponse)

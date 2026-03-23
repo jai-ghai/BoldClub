@@ -32,3 +32,4 @@ class User(TimestampMixin, Base):
 
     sessions = relationship("AuthSession", back_populates="user", cascade="all, delete-orphan")
     otp_challenges = relationship("OtpChallenge", back_populates="user", cascade="all, delete-orphan")
+    profile = relationship("Profile", back_populates="user", cascade="all, delete-orphan", uselist=False)

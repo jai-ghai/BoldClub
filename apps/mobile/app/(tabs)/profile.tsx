@@ -1,10 +1,12 @@
 import { useMemo, useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Camera, Check, ChevronDown, ChevronRight, Crown, MapPin, Settings, Shield, SquarePen, Users } from "lucide-react-native";
+import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useAppFlow } from "../../src/features/app-flow/AppFlowProvider";
 import { samplePhotos } from "../../src/features/prototype/data";
+import { PAGE_GUTTER, PAGE_TOP_OFFSET } from "../../src/theme/layout";
 
 export default function ProfileScreen() {
   const { profile } = useAppFlow();
@@ -31,7 +33,7 @@ export default function ProfileScreen() {
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.headerRow}>
           <Text style={styles.header}>Profile</Text>
-          <Pressable style={styles.headerButton}>
+          <Pressable onPress={() => router.push("/settings" as any)} style={styles.headerButton}>
             <Settings color="#6B6B6B" size={18} strokeWidth={2.2} />
           </Pressable>
         </View>
@@ -103,10 +105,10 @@ export default function ProfileScreen() {
         <View style={styles.quickLinks}>
           <Text style={styles.quickLinksTitle}>Quick Links</Text>
           <View style={styles.quickLinksGrid}>
-            <View style={styles.quickLinkCard}>
+            <Pressable onPress={() => router.push("/settings" as any)} style={styles.quickLinkCard}>
               <Settings color="#6B6B6B" size={24} strokeWidth={2.1} />
               <Text style={styles.quickLinkText}>Settings</Text>
-            </View>
+            </Pressable>
             <View style={styles.quickLinkCard}>
               <Shield color="#6B6B6B" size={24} strokeWidth={2.1} />
               <Text style={styles.quickLinkText}>Privacy</Text>
@@ -128,7 +130,7 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#FFFFFF" },
-  content: { paddingHorizontal: 16, paddingBottom: 120 },
+  content: { paddingTop: PAGE_TOP_OFFSET, paddingHorizontal: PAGE_GUTTER, paddingBottom: 120 },
   headerRow: {
     flexDirection: "row",
     alignItems: "center",

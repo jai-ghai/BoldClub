@@ -1,6 +1,7 @@
 export type PrototypeUserProfile = {
   firstName: string;
   age: string;
+  dateOfBirth: string;
   gender: string;
   lookingFor: string;
   city: string;
@@ -20,6 +21,7 @@ export type PrototypeUserProfile = {
 export const initialPrototypeProfile: PrototypeUserProfile = {
   firstName: "",
   age: "",
+  dateOfBirth: "",
   gender: "",
   lookingFor: "",
   city: "",
@@ -135,10 +137,38 @@ export const discoverProfiles = [
 ];
 
 export const receivedLikes = [
-  { id: "kavya", name: "Kavya", age: 27, image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&h=200&fit=crop", isNew: true },
-  { id: "meera", name: "Meera", age: 25, image: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=200&h=200&fit=crop", isNew: true },
-  { id: "riya", name: "Riya", age: 28, image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200&h=200&fit=crop", isNew: false },
-  { id: "diya", name: "Diya", age: 26, image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop", isNew: false },
+  {
+    id: "kavya",
+    name: "Kavya",
+    age: 27,
+    image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&h=240&fit=crop",
+    unlocked: true,
+    reason: "Liked your warm travel vibe",
+  },
+  {
+    id: "meera",
+    name: "Meera",
+    age: 25,
+    image: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=200&h=240&fit=crop",
+    unlocked: true,
+    reason: "You both love books and coffee",
+  },
+  {
+    id: "riya",
+    name: "Riya",
+    age: 28,
+    image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200&h=240&fit=crop",
+    unlocked: false,
+    reason: "Unlock Premium to see who matched",
+  },
+  {
+    id: "diya",
+    name: "Diya",
+    age: 26,
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=240&fit=crop",
+    unlocked: false,
+    reason: "Unlock Premium to reveal this profile",
+  },
 ];
 
 export const sentLikes = [
@@ -149,6 +179,78 @@ export const sentLikes = [
 export const suggestedProfiles = [
   { id: "sara", name: "Sara", age: 26, image: "https://images.unsplash.com/photo-1524638431109-93d95c968f03?w=200&h=200&fit=crop", match: "92%" },
   { id: "tara", name: "Tara", age: 27, image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop", match: "88%" },
+];
+
+export const similarInterestProfiles = [
+  {
+    id: "alia",
+    name: "Alia",
+    age: 26,
+    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=240&h=280&fit=crop",
+    badge: "Travel + Art",
+  },
+  {
+    id: "naina",
+    name: "Naina",
+    age: 29,
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&h=280&fit=crop",
+    badge: "Books + Coffee",
+  },
+  {
+    id: "sana",
+    name: "Sana",
+    age: 25,
+    image: "https://images.unsplash.com/photo-1521119989659-a83eee488004?w=240&h=280&fit=crop",
+    badge: "Music + Fitness",
+  },
+];
+
+export const sameDatingGoalProfiles = [
+  {
+    id: "isha",
+    name: "Isha",
+    age: 27,
+    image: "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?w=240&h=280&fit=crop",
+    badge: "Long-term mindset",
+  },
+  {
+    id: "tanvi",
+    name: "Tanvi",
+    age: 28,
+    image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=240&h=280&fit=crop",
+    badge: "Intentional dating",
+  },
+  {
+    id: "anika",
+    name: "Anika",
+    age: 26,
+    image: "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?w=240&h=280&fit=crop",
+    badge: "Looking for commitment",
+  },
+];
+
+export const commonCommunityProfiles = [
+  {
+    id: "mitali",
+    name: "Mitali",
+    age: 24,
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&h=280&fit=crop",
+    badge: "Startup Sundays",
+  },
+  {
+    id: "rhea",
+    name: "Rhea",
+    age: 27,
+    image: "https://images.unsplash.com/photo-1512316609839-ce289d3eba0a?w=240&h=280&fit=crop",
+    badge: "Bangalore Hikers",
+  },
+  {
+    id: "kiara",
+    name: "Kiara",
+    age: 25,
+    image: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=240&h=280&fit=crop",
+    badge: "Design Meetups",
+  },
 ];
 
 export const chatThreads = [
@@ -193,6 +295,25 @@ export const personalityTraits = [
   { name: "Extraversion", value: 68, color: "#C1121F" },
   { name: "Agreeableness", value: 90, color: "#E63946" },
   { name: "Emotional Stability", value: 78, color: "#FFB4A2" },
+];
+
+export const personalityTrainingVideos = [
+  {
+    id: "presence",
+    title: "Build Calm Confidence",
+    duration: "8 min",
+    coach: "Coach Mira",
+    description: "Learn how to stay grounded, expressive, and warm on first dates.",
+    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&h=320&fit=crop",
+  },
+  {
+    id: "boundaries",
+    title: "Healthy Boundaries Practice",
+    duration: "11 min",
+    coach: "Coach Arjun",
+    description: "A quick training session on clarity, pacing, and emotionally safe communication.",
+    image: "https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=500&h=320&fit=crop",
+  },
 ];
 
 export const membershipPlans = [

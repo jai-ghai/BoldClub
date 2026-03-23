@@ -1,12 +1,18 @@
 import { Redirect } from "expo-router";
+import { useAuth } from "@clerk/expo";
 
 import { useAppFlow } from "../src/features/app-flow/AppFlowProvider";
 import { getCurrentOnboardingRoute } from "../src/features/onboarding/routes";
 
 export default function IndexScreen() {
-  const { isAuthenticated, isOnboardingComplete, profile, skippedOnboardingRoutes } = useAppFlow();
+  const { isLoaded, isSignedIn } = useAuth();
+  const { isOnboardingComplete, profile, skippedOnboardingRoutes } = useAppFlow();
 
-  if (!isAuthenticated) {
+  if (!isLoaded) {
+    return null;
+  }
+
+  if (!isSignedIn) {
     return <Redirect href="/(auth)" />;
   }
 

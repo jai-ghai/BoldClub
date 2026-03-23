@@ -1,13 +1,52 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { Heart, X } from "lucide-react-native";
+import { Heart, Lock, Unlock } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { receivedLikes, sentLikes, suggestedProfiles } from "../../src/features/prototype/data";
+import {
+  commonCommunityProfiles,
+  receivedLikes,
+  sameDatingGoalProfiles,
+  similarInterestProfiles,
+  suggestedProfiles,
+} from "../../src/features/prototype/data";
+import { PAGE_GUTTER, PAGE_TOP_OFFSET } from "../../src/theme/layout";
+
+type LikesView = "recommended" | "received";
 
 export default function LikesScreen() {
-  const [activeView, setActiveView] = useState<"received" | "sent">("received");
-  const currentLikes = activeView === "received" ? receivedLikes : sentLikes;
+  const [activeView, setActiveView] = useState<LikesView>("recommended");
+  const recommendationSections = useMemo(
+    () => [
+      {
+        key: "suggested",
+        title: "Suggested for you",
+        subtitle: "Profiles picked from your recent matching vibe",
+        data: suggestedProfiles,
+      },
+      {
+        key: "interest",
+        title: "Similar interest",
+        subtitle: "People who overlap with your interests",
+        data: similarInterestProfiles,
+      },
+      {
+        key: "goal",
+        title: "Same dating goal",
+        subtitle: "Profiles looking for the same kind of connection",
+        data: sameDatingGoalProfiles,
+      },
+      {
+        key: "communities",
+        title: "Communities in common",
+        subtitle: "People from circles you already belong to",
+        data: commonCommunityProfiles,
+      },
+    ],
+    [],
+  );
+  const unlockedLikes = receivedLikes.filter((item) => item.unlocked).length;
+  const lockedLikes = receivedLikes.length - unlockedLikes;
 
   return (
     <SafeAreaView edges={["top"]} style={styles.container}>
@@ -15,68 +54,90 @@ export default function LikesScreen() {
         <Text style={styles.header}>Likes</Text>
 
         <View style={styles.toggleShell}>
+          <Pressable onPress={() => setActiveView("recommended")} style={[styles.toggleItem, activeView === "recommended" ? styles.toggleItemActive : null]}>
+            <View style={styles.toggleInner}>
+              <Heart color={activeView === "recommended" ? "#E63946" : "#6B6B6B"} fill={activeView === "recommended" ? "#E63946" : "none"} size={14} strokeWidth={2.2} />
+              <Text style={[styles.toggleText, activeView === "recommended" ? styles.toggleTextActive : null]}>Recommended</Text>
+            </View>
+          </Pressable>
           <Pressable onPress={() => setActiveView("received")} style={[styles.toggleItem, activeView === "received" ? styles.toggleItemActive : null]}>
-            <Text style={[styles.toggleText, activeView === "received" ? styles.toggleTextActive : null]}>Who Likes You ({receivedLikes.length})</Text>
-          </Pressable>
-          <Pressable onPress={() => setActiveView("sent")} style={[styles.toggleItem, activeView === "sent" ? styles.toggleItemActive : null]}>
-            <Text style={[styles.toggleText, activeView === "sent" ? styles.toggleTextActive : null]}>Likes Sent ({sentLikes.length})</Text>
+            <View style={styles.toggleInner}>
+              {activeView === "received" ? <Unlock color="#E63946" size={14} strokeWidth={2.3} /> : <Lock color="#6B6B6B" size={14} strokeWidth={2.3} />}
+              <Text style={[styles.toggleText, activeView === "received" ? styles.toggleTextActive : null]}>Who Likes You</Text>
+            </View>
           </Pressable>
         </View>
 
-        <View style={styles.grid}>
-          {currentLikes.map((person) => (
-            <View key={person.id} style={styles.likeCard}>
-              <Image source={{ uri: person.image }} style={styles.likeImage} />
-              <View style={styles.imageOverlay} />
-
-              {activeView === "received" && "isNew" in person && person.isNew ? <Text style={styles.floatingBadge}>NEW</Text> : null}
-              {activeView === "sent" && "pending" in person && person.pending ? <Text style={styles.pendingBadge}>PENDING</Text> : null}
-
-              <View style={styles.likeMeta}>
-                <Text style={styles.likeName}>
-                  {person.name}, {person.age}
-                </Text>
+        {activeView === "recommended" ? (
+          recommendationSections.map((section) => (
+            <View key={section.key} style={styles.sectionBlock}>
+              <View style={styles.sectionHeader}>
+                <View>
+                  <Text style={styles.sectionTitle}>{section.title}</Text>
+                  <Text style={styles.sectionSubtitle}>{section.subtitle}</Text>
+                </View>
               </View>
 
-              {activeView === "received" ? (
-                <View style={styles.actionRow}>
-                  <Pressable style={styles.iconButton}>
-                    <X color="#6B6B6B" size={16} strokeWidth={2.4} />
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.recommendationRow}>
+                {section.data.map((profile) => (
+                  <Pressable key={profile.id} style={styles.recommendationCard}>
+                    <Image source={{ uri: profile.image }} style={styles.recommendationImage} />
+                    <View style={styles.imageOverlay} />
+                    <View style={styles.recommendationBadge}>
+                      <Text style={styles.recommendationBadgeText}>{"badge" in profile ? profile.badge : `${profile.match} Match`}</Text>
+                    </View>
+                    <View style={styles.recommendationMeta}>
+                      <Text style={styles.recommendationName}>
+                        {profile.name}, {profile.age}
+                      </Text>
+                    </View>
                   </Pressable>
-                  <Pressable style={styles.iconButtonPrimary}>
-                    <Heart color="#FFFFFF" fill="#FFFFFF" size={16} strokeWidth={2.2} />
-                  </Pressable>
-                </View>
-              ) : (
-                <View style={styles.likeMetaRight}>
-                  {"pending" in person ? <Text style={styles.subtleStatus}>{person.pending ? "Waiting for reply" : "Seen"}</Text> : null}
-                </View>
-              )}
+                ))}
+              </ScrollView>
             </View>
-          ))}
-        </View>
+          ))
+        ) : (
+          <>
+            <View style={styles.likesSummaryCard}>
+              <View style={styles.likesSummaryTop}>
+                <View>
+                  <Text style={styles.sectionTitle}>Who Likes You</Text>
+                  <Text style={styles.sectionSubtitle}>See the people who have already shown interest in you.</Text>
+                </View>
+                <View style={styles.summaryHeart}>
+                  <Heart color="#FFFFFF" fill="#FFFFFF" size={18} strokeWidth={2.2} />
+                </View>
+              </View>
 
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Suggested For You</Text>
-          <Pressable>
-            <Text style={styles.seeAll}>See All</Text>
-          </Pressable>
-        </View>
-
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.suggestedRow}>
-          {suggestedProfiles.map((profile) => (
-            <View key={profile.id} style={styles.suggestedCard}>
-              <Image source={{ uri: profile.image }} style={styles.suggestedImage} />
-              <View style={styles.imageOverlay} />
-              <Text style={styles.matchBadge}>{profile.match} Match</Text>
-              <View style={styles.suggestedNameWrap}>
-                <Text style={styles.suggestedName}>
-                  {profile.name}, {profile.age}
-                </Text>
+              <View style={styles.accessRow}>
+                <View style={[styles.accessPill, styles.accessPillActive]}>
+                  <Unlock color="#E63946" size={15} strokeWidth={2.4} />
+                  <Text style={styles.accessTextActive}>{unlockedLikes} unlocked</Text>
+                </View>
+                <View style={styles.accessPill}>
+                  <Lock color="#6B6B6B" size={15} strokeWidth={2.4} />
+                  <Text style={styles.accessText}>{lockedLikes} locked</Text>
+                </View>
               </View>
             </View>
-          ))}
-        </ScrollView>
+
+            <View style={styles.grid}>
+              {receivedLikes.map((person) => (
+                <View key={person.id} style={styles.likeCard}>
+                  <Image source={{ uri: person.image }} style={styles.likeImage} />
+                  <View style={styles.imageOverlay} />
+
+                  <View style={styles.likeMeta}>
+                    <Text style={styles.likeName}>
+                      {person.name}, {person.age}
+                    </Text>
+                    <Text style={styles.likeReason}>{person.reason}</Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -84,7 +145,7 @@ export default function LikesScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#FFFFFF" },
-  content: { paddingHorizontal: 16, paddingBottom: 120 },
+  content: { paddingTop: PAGE_TOP_OFFSET, paddingHorizontal: PAGE_GUTTER, paddingBottom: 120 },
   header: { color: "#1C1C1C", fontSize: 24, fontWeight: "800" },
   toggleShell: {
     flexDirection: "row",
@@ -103,6 +164,11 @@ const styles = StyleSheet.create({
   toggleItemActive: {
     backgroundColor: "#FFFFFF",
   },
+  toggleInner: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
   toggleText: {
     color: "#6B6B6B",
     fontSize: 13,
@@ -112,15 +178,124 @@ const styles = StyleSheet.create({
   toggleTextActive: {
     color: "#1C1C1C",
   },
+  sectionBlock: {
+    marginTop: 24,
+  },
+  sectionHeader: {
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    color: "#1C1C1C",
+    fontSize: 18,
+    fontWeight: "700",
+  },
+  sectionSubtitle: {
+    color: "#6B6B6B",
+    fontSize: 13,
+    marginTop: 4,
+    lineHeight: 18,
+  },
+  recommendationRow: {
+    gap: 12,
+    paddingRight: 6,
+  },
+  recommendationCard: {
+    width: 146,
+    borderRadius: 18,
+    aspectRatio: 0.76,
+    overflow: "hidden",
+    position: "relative",
+    backgroundColor: "#F5F5F5",
+  },
+  recommendationImage: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  imageOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.18)",
+  },
+  recommendationBadge: {
+    position: "absolute",
+    top: 10,
+    left: 10,
+    right: 10,
+    borderRadius: 999,
+    backgroundColor: "rgba(255,255,255,0.16)",
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  recommendationBadgeText: {
+    color: "#FFFFFF",
+    fontSize: 11,
+    fontWeight: "700",
+  },
+  recommendationMeta: {
+    position: "absolute",
+    left: 12,
+    right: 12,
+    bottom: 12,
+  },
+  recommendationName: {
+    color: "#FFFFFF",
+    fontSize: 15,
+    fontWeight: "700",
+  },
+  likesSummaryCard: {
+    marginTop: 24,
+    borderRadius: 22,
+    padding: 18,
+    backgroundColor: "#F8F2F3",
+  },
+  likesSummaryTop: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+  summaryHeart: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: "#E63946",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  accessRow: {
+    flexDirection: "row",
+    gap: 10,
+    marginTop: 16,
+  },
+  accessPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    backgroundColor: "#FFFFFF",
+  },
+  accessPillActive: {
+    backgroundColor: "rgba(230,57,70,0.10)",
+  },
+  accessText: {
+    color: "#6B6B6B",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  accessTextActive: {
+    color: "#E63946",
+    fontSize: 13,
+    fontWeight: "700",
+  },
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 12,
-    marginTop: 14,
+    marginTop: 16,
   },
   likeCard: {
     width: "48%",
-    borderRadius: 16,
+    borderRadius: 18,
     overflow: "hidden",
     aspectRatio: 0.76,
     position: "relative",
@@ -129,41 +304,7 @@ const styles = StyleSheet.create({
   likeImage: {
     ...StyleSheet.absoluteFillObject,
   },
-  imageOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.18)",
-  },
-  floatingBadge: {
-    position: "absolute",
-    top: 10,
-    left: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 999,
-    backgroundColor: "#E63946",
-    color: "#FFFFFF",
-    fontSize: 10,
-    fontWeight: "700",
-  },
-  pendingBadge: {
-    position: "absolute",
-    top: 10,
-    left: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 999,
-    backgroundColor: "#FFB4A2",
-    color: "#1C1C1C",
-    fontSize: 10,
-    fontWeight: "700",
-  },
   likeMeta: {
-    position: "absolute",
-    left: 12,
-    bottom: 12,
-    right: 12,
-  },
-  likeMetaRight: {
     position: "absolute",
     left: 12,
     right: 12,
@@ -174,87 +315,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "700",
   },
-  subtleStatus: {
-    color: "#FFFFFF",
-    fontSize: 12,
-    fontWeight: "600",
-  },
-  actionRow: {
-    position: "absolute",
-    right: 10,
-    bottom: 10,
-    flexDirection: "row",
-    gap: 8,
-  },
-  iconButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: "rgba(255,255,255,0.92)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  iconButtonPrimary: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: "#E63946",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  sectionHeader: {
-    marginTop: 28,
-    marginBottom: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  sectionTitle: {
-    color: "#1C1C1C",
-    fontSize: 18,
-    fontWeight: "700",
-  },
-  seeAll: {
-    color: "#E63946",
-    fontSize: 13,
-    fontWeight: "600",
-  },
-  suggestedRow: {
-    gap: 12,
-    paddingRight: 8,
-  },
-  suggestedCard: {
-    width: 128,
-    borderRadius: 16,
-    aspectRatio: 0.76,
-    overflow: "hidden",
-    position: "relative",
-    backgroundColor: "#F5F5F5",
-  },
-  suggestedImage: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  matchBadge: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    borderRadius: 999,
-    backgroundColor: "#E63946",
-    color: "#FFFFFF",
-    fontSize: 10,
-    fontWeight: "700",
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-  },
-  suggestedNameWrap: {
-    position: "absolute",
-    left: 10,
-    right: 10,
-    bottom: 10,
-  },
-  suggestedName: {
-    color: "#FFFFFF",
-    fontSize: 13,
-    fontWeight: "700",
+  likeReason: {
+    color: "rgba(255,255,255,0.86)",
+    fontSize: 11,
+    lineHeight: 16,
+    marginTop: 4,
   },
 });

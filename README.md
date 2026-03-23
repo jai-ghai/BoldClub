@@ -17,9 +17,9 @@ The source product docs remain in [`docs`](/c:/Users/Minfy/Desktop/AI/Boldclub/d
 - Mobile: React Native with Expo
 - API: FastAPI
 - Background jobs: Celery workers
-- Data: PostgreSQL, Redis, S3
+- Data: PostgreSQL, Redis, Cloudinary now with an S3-ready storage abstraction
 - Real-time chat: Stream
-- AI: OpenAI embeddings, AI chat assists, and `gpt-4o-mini` compatibility explanations
+- AI: Gemini embeddings, Gemini-generated compatibility explanations, and backend-owned matching scores
 
 Note: the PRD mentions `Node/Express`, but the final architecture and system breakdown are much more specific around `FastAPI + Celery + PostgreSQL + Redis + Stream`. This scaffold uses that stack as the current source of truth so frontend and backend stay aligned.
 
@@ -89,3 +89,4 @@ tests/
 - [`03-step-by-step-roadmap.md`](/c:/Users/Minfy/Desktop/AI/Boldclub/docs/blueprint/03-step-by-step-roadmap.md)
 - [`04-stack-and-experience-decisions.md`](/c:/Users/Minfy/Desktop/AI/Boldclub/docs/blueprint/04-stack-and-experience-decisions.md)
 - [`05-local-run-guide.md`](/c:/Users/Minfy/Desktop/AI/Boldclub/docs/blueprint/05-local-run-guide.md)
+- [`06-gemini-matching-and-media-plan.md`](/c:/Users/Minfy/Desktop/AI/Boldclub/docs/blueprint/06-gemini-matching-and-media-plan.md)

@@ -4,6 +4,7 @@
     "slug": "boldclub-mobile",
     "scheme": "boldclub",
     "version": "0.1.0",
+    "icon": "./assets/branding/app-icon.png",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -12,7 +13,8 @@
     },
     "plugins": [
       "expo-router",
-      "expo-apple-authentication"
+      "expo-secure-store",
+      "expo-web-browser"
     ],
     "ios": {
       "supportsTablet": true,
@@ -21,8 +23,12 @@
     "android": {
       "package": "com.boldclub.mobile",
       "adaptiveIcon": {
-        "backgroundColor": "#130A17"
+        "foregroundImage": "./assets/branding/adaptive-foreground.png",
+        "backgroundColor": "#8A1D35"
       }
+    },
+    "web": {
+      "favicon": "./assets/branding/app-icon.png"
     }
   }
 }

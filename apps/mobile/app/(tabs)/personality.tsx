@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { Check, ChevronDown, ChevronUp, Clock3, Coffee, Crown, Flower2, Gift, Heart, Sparkles, Star } from "lucide-react-native";
+import { Check, ChevronDown, ChevronUp, Clock3, Coffee, Crown, Flower2, Gift, Heart, PlayCircle, Sparkles, Star } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { blogPosts, digitalGifts, membershipPlans, personalityTraits } from "../../src/features/prototype/data";
+import { blogPosts, digitalGifts, membershipPlans, personalityTraits, personalityTrainingVideos } from "../../src/features/prototype/data";
+import { PAGE_GUTTER, PAGE_TOP_OFFSET } from "../../src/theme/layout";
 
 export default function PersonalityScreen() {
   const [showMembershipPlans, setShowMembershipPlans] = useState(false);
@@ -112,6 +113,31 @@ export default function PersonalityScreen() {
 
         <View style={styles.section}>
           <View style={styles.sectionHeaderRow}>
+            <Text style={styles.sectionTitle}>Personality Development</Text>
+            <PlayCircle color="#E63946" size={18} strokeWidth={2.2} />
+          </View>
+          <Text style={styles.sectionSubtitle}>Short training videos to improve connection, confidence, and communication.</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.trainingRow}>
+            {personalityTrainingVideos.map((video) => (
+              <Pressable key={video.id} style={styles.trainingCard}>
+                <Image source={{ uri: video.image }} style={styles.trainingImage} />
+                <View style={styles.trainingOverlay} />
+                <View style={styles.trainingPlay}>
+                  <PlayCircle color="#FFFFFF" size={28} strokeWidth={2.1} />
+                </View>
+                <View style={styles.trainingMeta}>
+                  <Text style={styles.trainingCoach}>{video.coach}</Text>
+                  <Text style={styles.trainingTitle}>{video.title}</Text>
+                  <Text style={styles.trainingDescription}>{video.description}</Text>
+                  <Text style={styles.trainingDuration}>{video.duration}</Text>
+                </View>
+              </Pressable>
+            ))}
+          </ScrollView>
+        </View>
+
+        <View style={styles.section}>
+          <View style={styles.sectionHeaderRow}>
             <Text style={styles.sectionTitle}>Insights & Tips</Text>
             <Text style={styles.seeAll}>See All</Text>
           </View>
@@ -136,7 +162,7 @@ export default function PersonalityScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#FFFFFF" },
-  content: { paddingHorizontal: 16, paddingBottom: 120 },
+  content: { paddingTop: PAGE_TOP_OFFSET, paddingHorizontal: PAGE_GUTTER, paddingBottom: 120 },
   header: { color: "#1C1C1C", fontSize: 24, fontWeight: "800" },
   subheader: { marginTop: 4, color: "#6B6B6B", fontSize: 14 },
   membershipBanner: {
@@ -202,6 +228,62 @@ const styles = StyleSheet.create({
   traitValue: { color: "#6B6B6B", fontSize: 13 },
   traitTrack: { height: 8, borderRadius: 999, backgroundColor: "#ECECEC", overflow: "hidden" },
   traitFill: { height: "100%", borderRadius: 999 },
+  trainingRow: { gap: 14, paddingRight: 4 },
+  trainingCard: {
+    width: 262,
+    minHeight: 250,
+    borderRadius: 20,
+    overflow: "hidden",
+    backgroundColor: "#F5F5F5",
+  },
+  trainingImage: {
+    width: "100%",
+    height: 250,
+  },
+  trainingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.20)",
+  },
+  trainingPlay: {
+    position: "absolute",
+    top: 16,
+    right: 16,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: "rgba(0,0,0,0.20)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  trainingMeta: {
+    position: "absolute",
+    left: 16,
+    right: 16,
+    bottom: 16,
+  },
+  trainingCoach: {
+    color: "rgba(255,255,255,0.82)",
+    fontSize: 12,
+    fontWeight: "600",
+  },
+  trainingTitle: {
+    marginTop: 6,
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "800",
+  },
+  trainingDescription: {
+    marginTop: 8,
+    color: "rgba(255,255,255,0.86)",
+    fontSize: 13,
+    lineHeight: 19,
+  },
+  trainingDuration: {
+    marginTop: 10,
+    color: "#FFFFFF",
+    fontSize: 12,
+    fontWeight: "700",
+  },
   seeAll: { color: "#E63946", fontSize: 13, fontWeight: "600" },
   blogCard: { flexDirection: "row", gap: 12, padding: 12, borderRadius: 14, backgroundColor: "#F5F5F5", marginTop: 12 },
   blogImage: { width: 80, height: 80, borderRadius: 10 },

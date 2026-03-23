@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -45,3 +45,19 @@ class CompleteOnboardingResponse(BaseModel):
     account_status: AccountStatus
     next_route: str
     is_profile_complete: bool
+
+
+class CreateMediaUploadSignatureRequest(BaseModel):
+    resource_type: Literal["image", "video"] = "image"
+    file_name: str | None = None
+
+
+class CreateMediaUploadSignatureResponse(BaseModel):
+    cloud_name: str
+    api_key: str
+    timestamp: int
+    signature: str
+    folder: str
+    public_id: str
+    upload_url: str
+    resource_type: str
